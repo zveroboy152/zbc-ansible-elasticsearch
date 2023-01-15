@@ -1,0 +1,38 @@
+- name: Clone and run ELK stack
+  hosts: prod
+  become: yes
+
+  tasks:
+    
+    - name: Install software
+      package:
+        name: '{{ item }}'
+        state: latest
+      with_items:
+        - docker.io
+        - docker-compose
+        - git
+    - name: Create a git temp directory 
+      become: yes
+      file:
+        path: /tmp/elastic
+        state: directory
+        owner: root
+        group: root
+        mode: '0775'
+    - name: Create a git temp directory if it does not exist
+      become: yes
+      file:
+        path: /tmp/elastic
+        state: directory
+    - name: Clone git repository
+      become: yes
+      git:
+        repo: https://github.com/deviantony/docker-elk.git
+        dest: /tmp/elastic
+
+    - name: Start ELK stack
+      become: yes
+      shell:
+        cmd: |
+          cd /tmp/elastic/ && docker-compose up -d
