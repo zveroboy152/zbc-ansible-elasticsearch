@@ -1,0 +1,24 @@
+# ELK Stack Setup
+
+This Ansible playbook installs and runs the ELK stack (Elasticsearch, Logstash, and Kibana) on a specified host.
+
+## Requirements
+
+- Ansible 2.9 or later
+- A target host with root access to run the playbook on
+
+## Usage
+
+1. Clone this repository to your local machine
+2. Update the `hosts` file with the hostname or IP of your target host
+3. Run the playbook using the command `ansible-playbook -i hosts deploy_elastic.yml`
+
+## Playbook details
+
+- Installs the following software:
+  - Docker
+  - Docker Compose
+  - Git
+- Creates a temporary directory for the git repository
+- Clones the specified ELK stack repository
+- Runs the ELK stack using Docker Compose
